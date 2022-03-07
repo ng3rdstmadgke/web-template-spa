@@ -19,9 +19,8 @@ services:
       - type: bind
         source: "${FRONT_DIR}"
         target: "/opt/app"
+    working_dir: /opt/app
     command: /usr/local/bin/entrypoint.sh --debug
-    env_file:
-      - "${FRONT_ENV_PATH}"
     network_mode: host
   nginx:
     image: ${APP_NAME}/nginx:latest

@@ -16,8 +16,6 @@ cat >&2 <<EOS
    バックグラウンドで起動
  -a | --api-env <ENV_PATH>:
    apiコンテナ用の環境変数ファイルを指定(default=./api/.env)
- -f | --front-env <ENV_PATH>:
-   frontコンテナ用の環境変数ファイルを指定(default=./front/.env)
  --debug:
    デバッグモードで起動
 EOS
@@ -35,14 +33,12 @@ source "${SCRIPT_DIR}/lib/utils.sh"
 
 OPTIONS=
 API_ENV_PATH="${API_DIR}/.env"
-FRONT_ENV_PATH="${FRONT_DIR}/.env"
 args=()
 while [ "$#" != 0 ]; do
   case $1 in
     -h | --help      ) usage;;
     -d | --daemon    ) shift;OPTIONS="$OPTIONS -d";;
     -a | --api-env   ) shift;API_ENV_PATH="$1";;
-    -f | --front-env ) shift;FRONT_ENV_PATH="$1";;
     --debug          ) DEBUG="1";;
     -* | --*         ) error "$1 : 不正なオプションです" ;;
     *                ) args+=("$1");;
@@ -53,19 +49,14 @@ done
 [ "${#args[@]}" != 0 ] && usage
 [ -z "$API_ENV_PATH" ] && error "-a | --api-env でapiコンテナ用の環境変数ファイルを指定してください"
 [ -r "$API_ENV_PATH" -a -f "$API_ENV_PATH" ] || error "apiコンテナ用の環境変数ファイルを読み込めません: $API_ENV_PATH"
-[ -z "$FRONT_ENV_PATH" ] && error "-f | --front-env でapiコンテナ用の環境変数ファイルを指定してください"
-[ -r "$FRONT_ENV_PATH" -a -f "$FRONT_ENV_PATH" ] || error "frontコンテナ用の環境変数ファイルを読み込めません: $FRONT_ENV_PATH"
 
 api_env_tmp="$(mktemp)"
 cat "$API_ENV_PATH" > "$api_env_tmp"
-front_env_tmp="$(mktemp)"
-cat "$FRONT_ENV_PATH" > "$front_env_tmp"
 
-trap "docker-compose -f docker-compose.yml down; rm -f $api_env_tmp $front_env_tmp" EXIT
+trap "docker-compose -f docker-compose.yml down; rm -f $api_env_tmp" EXIT
 invoke export API_DIR="$API_DIR"
 invoke export FRONT_DIR="$FRONT_DIR"
 invoke export API_ENV_PATH="$api_env_tmp"
-invoke export FRONT_ENV_PATH="$front_env_tmp"
 invoke export APP_NAME=$(cat ${PROJECT_ROOT}/.app_name | tr '[A-Z]' '[a-z]')
 cd "$CONTAINER_DIR"
 

@@ -54,9 +54,11 @@ export default function ({$axios, $cookies, redirect, error }: Context) {
   // リクエスト時の共通処理を定義
   // cookieにアクセストークンがあればAuthorizationヘッダを付与する
   $axios.onRequest((config: AxiosRequestConfig) => {
-    // console.log(config)
-    // ブラウザ側とサーバー側でAPIアクセス先のbaseURLを分ける
-    config.baseURL = process.browser ? '' : process.env.API_HOST;
+    // SSR: ブラウザサイドのアクセスとサーバーサイドのアクセスで宛先を分ける
+    // config.baseURL = process.browser ? '' : process.env.API_HOST;
+
+    // SPA: ブラウザ側からアクセスのみなので宛先を統一する
+    config.baseURL = '';
     if (Auth.authenticated($cookies)) {
       let token = Auth.getAccessToken($cookies)
       config.headers.common['Authorization'] = `Bearer ${token}`;

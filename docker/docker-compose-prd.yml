@@ -10,13 +10,4 @@ services:
   front:
     image: ${APP_NAME}/front:latest
     container_name: front
-    env_file:
-      - "${FRONT_ENV_PATH}"
-    network_mode: host
-  nginx:
-    image: ${APP_NAME}/nginx:latest
-    container_name: nginx
-    depends_on:
-      - api
-      - front
     network_mode: host
