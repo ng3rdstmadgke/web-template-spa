@@ -1,0 +1,8 @@
+*/.git
+
+# api
+*/.venv
+
+# front
+*/node_modules
+front/.nuxt
