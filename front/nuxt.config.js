@@ -3,8 +3,8 @@ import colors from 'vuetify/es5/util/colors'
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - nuxt-quickstart-ts',
-    title: 'nuxt-quickstart-ts',
+    titleTemplate: '%s - web-template-spa',
+    title: 'web-template-spa',
     htmlAttrs: {
       lang: 'en'
     },
