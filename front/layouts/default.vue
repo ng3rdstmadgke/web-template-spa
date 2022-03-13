@@ -147,7 +147,7 @@ export default Vue.extend({
           title: 'Users',
           to: '/users/',
           display: "loggedIn",
-          requireRole: "TransAppAdminRole",
+          requireRole: "SystemAdminRole",
         },
       ];
 

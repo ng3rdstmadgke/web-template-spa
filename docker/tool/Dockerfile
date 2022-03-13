@@ -26,9 +26,10 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
 RUN mkdir -p /opt/app
 WORKDIR /opt/app
-COPY api/requirements.txt ./
+COPY api/requirements_dev.txt ./
 RUN pip install --upgrade pip && \
-    pip install -r requirements.txt
+    pip install -r requirements_dev.txt
 COPY api .
+COPY bin /opt/bin
 
 CMD ["/bin/bash"]

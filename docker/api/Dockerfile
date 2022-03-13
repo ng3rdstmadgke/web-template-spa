@@ -31,6 +31,7 @@ COPY api/requirements.txt ./
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 COPY api .
+COPY bin /opt/bin
 
 COPY docker/api/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh

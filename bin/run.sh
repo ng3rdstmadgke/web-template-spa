@@ -18,6 +18,15 @@ cat >&2 <<EOS
    apiコンテナ用の環境変数ファイルを指定(default=./api/.env)
  --debug:
    デバッグモードで起動
+
+[example]
+ # ローカルのmysqlで起動する
+ $(dirname $0)/run-local-mysql.sh -d
+ $(dirname $0)/alembic.sh -m -a api/test_env -- upgrade head
+ $(dirname $0)/manage.sh -a api/test_env -- create_user admin --superuser
+ $(dirname $0)/manage.sh -a api/test_env -- create_role ItemAdminRole
+ $(dirname $0)/manage.sh -a api/test_env -- attach_role admin ItemAdminRole
+ $(dirname $0)/run.sh -a api/test_env --debug
 EOS
 exit 1
 }
