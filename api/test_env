@@ -1,4 +1,4 @@
-APP_NAME=web-template
+APP_NAME=web-template-spa
 STAGE_NAME=test01
 MODE=test
 AWS_REGION=ap-northeast-1

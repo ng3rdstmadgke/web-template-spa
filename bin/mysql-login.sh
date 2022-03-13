@@ -14,8 +14,8 @@ DBログインコマンド
    ヘルプを表示
  -t | --tag <TAG>:
    イメージのタグを指定(default=latest)
- -e | --env <ENV_PATH>:
-   コンテナ用の環境変数ファイルを指定(default=api/.env)
+ -a | --api-env <ENV_PATH>:
+   apiコンテナ用の環境変数ファイルを指定(default=api/.env)
 EOS
 exit 1
 }
@@ -31,11 +31,11 @@ ENV_PATH="${API_DIR}/.env"
 args=()
 while [ "$#" != 0 ]; do
   case $1 in
-    -h | --help ) usage;;
-    -t | --tag  ) shift;TAG="$1";;
-    -e | --env  ) shift;ENV_PATH="$1";;
-    -* | --*    ) error "$1 : 不正なオプションです" ;;
-    *           ) args+=("$1");;
+    -h | --help    ) usage;;
+    -t | --tag     ) shift;TAG="$1";;
+    -a | --api-env ) shift;ENV_PATH="$1";;
+    -* | --*       ) error "$1 : 不正なオプションです" ;;
+    *              ) args+=("$1");;
   esac
   shift
 done
@@ -57,4 +57,4 @@ docker run --rm -ti \
   --env-file "$env_tmp" \
   -v "${API_DIR}:/opt/app" \
   "${APP_NAME}/tool:${TAG}" \
-  /opt/app/bin/mysql_login.sh
+  /opt/bin/lib/mysql_login.sh
