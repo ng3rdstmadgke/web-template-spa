@@ -8,5 +8,5 @@ DB_USER=test
 DB_PASSWORD=test1234
 DB_HOST=127.0.0.1
 DB_PORT=3306
-DB_NAME=web_template
+DB_NAME=web_template_spa
 SECRET_KEY=0123456789abcdef
