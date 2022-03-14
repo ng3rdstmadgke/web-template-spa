@@ -47,10 +47,9 @@ done
 
 
 set -e
-trap 'echo "[$BASH_SOURCE:$LINENO] - "$BASH_COMMAND" returns not zero status"' ERR
-
-APP_NAME=$(cat ${PROJECT_ROOT}/.app_name | tr '[A-Z]' '[a-z]')
 export $(cat ${API_DIR}/test_env | grep -v -e "^ *#.*")
+APP_NAME=$(cat ${PROJECT_ROOT}/.app_name | tr '[A-Z]' '[a-z]')
+trap 'docker rm -f ${APP_NAME}-mysql ${APP_NAME}-mysql-check; echo "[$BASH_SOURCE:$LINENO] - "$BASH_COMMAND" returns not zero status"' ERR
 cd "$CONTAINER_DIR"
 
 invoke docker run $OPTIONS \
@@ -66,6 +65,7 @@ invoke docker run $OPTIONS \
 if [ -n "$DAEMON" ]; then
   invoke docker run \
     --rm \
+    --name ${APP_NAME}-mysql-check \
     --network host \
     -v "${API_DIR}:/opt/app" \
     -v "${BIN_DIR}:/opt/bin" \
